@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 import rospy
-# import time
-# import numpy as np
+import time
+import numpy as np
 from wifi_sensor.msg import *
 import thread
 import subprocess
