@@ -6,6 +6,7 @@ import rospy
 from wifi_sensor.msg import *
 import thread
 import subprocess
+import sys
 # import struct
 
 
@@ -13,7 +14,8 @@ class WifiSensor():
     def __init__(self):
         # setup rospy and get parameters
         rospy.init_node("wifisensor")
-        self.adapter = rospy.get_param("~adapter", "wlan0")
+        # self.adapter = rospy.get_param("~adapter", "wlan0")
+        self.adapter = sys.argv[1]
         self.channel = rospy.get_param("~channel", 9)
         self.rate = rospy.get_param("~rate", 20)
         # setup wifi adapter
@@ -23,11 +25,12 @@ class WifiSensor():
         subprocess.call(["iwconfig", self.adapter, "channel",
                         str(self.channel)])
         # find your own mac addr
-        output = subprocess.check_output(["ifconfig", "-a", self.adapter])
-        self.my_addr = "-".join(
-            [x.lower() for x in output.split(" ")[
-                output.split(" ").index("HWaddr")+1].split("-")[:6]])
+        # output = subprocess.check_output(["ifconfig", "-a", self.adapter])
+        # self.my_addr = "-".join(
+        #     [x.lower() for x in output.split(" ")[
+        #         output.split(" ").index("HWaddr")+1].split("-")[:6]])
         # Radiotap field specifications
+        self.my_addr = ""
         self.radiotap_formats = {
             "TSFT": "Q",
             "Flags": "B",
@@ -66,7 +69,9 @@ class WifiSensor():
         self.dataMutex = thread.allocate_lock()
         thread.start_new_thread(self.mesRaw, ())
         # setup main loop
-        self.pub = rospy.Publisher("rssi", RssiMulti, queue_size=10)
+        self.pub = rospy.Publisher("rssi_{0}".format(sys.argv[2]),
+                                   RssiMulti,
+                                   queue_size=10)
         r = rospy.Rate(self.rate)
         # main loop
         while not rospy.is_shutdown():
@@ -80,6 +85,7 @@ class WifiSensor():
                 submsg = Rssi()
                 submsg.header.stamp = rospy.Time.now()
                 submsg.my_mac_addr = self.my_addr
+                submsg.sensor_id = self.sensor_id
                 submsg.their_mac_addr = addr
                 submsg.rssi = data[addr]
                 msg.data.append(submsg)
