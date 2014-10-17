@@ -1,4 +1,4 @@
 <launch>
-	<node name="wifi_rssi_1" pkg="wifi_sensor" type="wifi_rssi.py" output="screen" args="adapter 1"/>
-	<node name="wifi_rssi_2" pkg="wifi_sensor" type="wifi_rssi.py" output="screen" args="adapter 2"/>
+	<node name="wifi_rssi_1" pkg="wifi_sensor" type="wifi_sensor" output="screen" args="wlan0 pru"/>
+	<node name="wifi_rssi_2" pkg="wifi_sensor" type="wifi_sensor" output="screen" args="wlan0 pru2"/>
 </launch>
