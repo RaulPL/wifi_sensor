@@ -1,5 +1,5 @@
 <launch>
-	<node name="wifi_rssi_1" pkg="wifi_sensor" type="wifi_sensor" output="screen" args="0 izq mon0"/>
+	<node name="wifi_rssi_1" pkg="wifi_sensor" type="wifi_sensor" output="screen" args="0 izq mon"/>
 	<node name="wifi_rssi_2" pkg="wifi_sensor" type="wifi_sensor" output="screen" args="1 izq mon0"/>
 	<node name="wifi_rssi_3" pkg="wifi_sensor" type="wifi_sensor" output="screen" args="0 der mon1"/>
 	<node name="wifi_rssi_4" pkg="wifi_sensor" type="wifi_sensor" output="screen" args="1 der mon1"/>

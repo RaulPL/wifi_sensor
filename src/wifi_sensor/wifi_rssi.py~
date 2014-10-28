@@ -43,12 +43,12 @@ class WifiSensor():
     def mesRaw(self):
 		if sys.argv[1] == "0":
 			p = subprocess.Popen(
-			    ("tcpdump", "-nnevvv","-s 0", "-i", (sys.argv[3]), "(type mgt subtype probe-resp)", "or" ,"(type mgt subtype beacon)"),
+			    ("tcpdump", "-nnevvv","-s 0", "-i", (sys.argv[3], "(type mgt subtype probe-resp)", "or" ,"(type mgt subtype beacon)"),
 			    stdout=subprocess.PIPE
 			    )
 		elif sys.argv[1] == "1":
 			p = subprocess.Popen(
-			    ("tcpdump", "-nnevvv","-s 0", "-i", (sys.argv[3]), "(type ctl subtype rts)", "or" ,"(type ctl subtype cts)","or","(type ctl subtype ack)"),stdout=subprocess.PIPE)
+			    ("tcpdump", "-nnevvv","-s 0", "-i", (sys.argv[3], "(type ctl subtype rts)", "or" ,"(type ctl subtype cts)","or","(type ctl subtype ack)"),stdout=subprocess.PIPE)
 		else:
 			print "parametro no indicado 0- Acces Point 1- Cliente"
 			thread.exit()
